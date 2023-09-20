@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const http = require("http");
 const debug = require("debug")("nasa-express-api:server");
 
