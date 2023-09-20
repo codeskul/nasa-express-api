@@ -1,14 +1,40 @@
 require("dotenv").config();
 const http = require("http");
 const debug = require("debug")("nasa-express-api:server");
+const mongoose = require("mongoose");
 
 const app = require("./app");
 
 const port = normalizePort(process.env.PORT || "8000");
+const mongoUrl = normalizePort(
+  process.env.MONGO_URL || "mongodb://127.0.0.1:27017"
+);
 
 const server = http.createServer(app);
 
 async function startServer() {
+  // ##### Another way for connection success or failure check #####
+  //   mongoose.connection.once("open", () => {
+  //     console.log("MongoDB Connected!");
+  //   });
+  //   mongoose.connection.on("error", (err) => {
+  //     console.error(err);
+  //   });
+  await mongoose
+    .connect(mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(
+      () => {
+        /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
+        debug("MongoDB Connected!");
+      },
+      (err) => {
+        /** handle initial connection error */
+        console.log("ERROR :: ", err);
+      }
+    );
   server.listen(port);
   server.on("error", onError);
   server.on("listening", onListening);
