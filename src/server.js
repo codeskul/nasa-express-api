@@ -6,9 +6,7 @@ const mongoose = require("mongoose");
 const app = require("./app");
 
 const port = normalizePort(process.env.PORT || "8000");
-const mongoUrl = normalizePort(
-  process.env.MONGO_URL || "mongodb://127.0.0.1:27017"
-);
+const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
 
 const server = http.createServer(app);
 

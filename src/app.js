@@ -7,6 +7,7 @@ const debug = require("debug")("nasa-express-api:app");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const planetsRouter = require("./routes/planets/planets.router");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use(planetsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
