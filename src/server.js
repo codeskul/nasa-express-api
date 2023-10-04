@@ -1,9 +1,10 @@
 require("dotenv").config();
 const http = require("http");
-const debug = require("debug")("nasa-express-api:server");
+const debug = require("debug")("nasa-api:server");
 const mongoose = require("mongoose");
 
 const app = require("./app");
+const { loadPlanetsData } = require("./models/planets.model");
 
 const port = normalizePort(process.env.PORT || "8000");
 const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
@@ -11,6 +12,8 @@ const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
 const server = http.createServer(app);
 
 async function startServer() {
+  await loadPlanetsData();
+
   // ##### Another way for connection success or failure check #####
   //   mongoose.connection.once("open", () => {
   //     console.log("MongoDB Connected!");

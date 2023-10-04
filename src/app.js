@@ -4,11 +4,12 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-const debug = require("debug")("nasa-express-api:app");
+const debug = require("debug")("nasa-api:app");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const planetsRouter = require("./routes/planets/planets.router");
+const launchesRouter = require("./routes/launches/launches.router");
 
 const app = express();
 
@@ -22,7 +23,8 @@ const corsOptions = {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(null, true); // for postman testing only
+      // callback(new Error("Not allowed by CORS"));    // enable it for production
     }
   },
 };
@@ -36,7 +38,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use(planetsRouter);
+app.use("/planets", planetsRouter);
+app.use("/launches", launchesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
