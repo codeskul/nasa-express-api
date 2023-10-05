@@ -7,7 +7,7 @@ const launch = {
   mission: "Kepler Exploration X",
   rocket: "Explorer IS1",
   launchDate: new Date("December 27, 2030"),
-  destination: "Kepler-442 b",
+  target: "Kepler-442 b",
   customer: ["PSTECH", "ISRO"],
   upcoming: true,
   success: true,
@@ -18,18 +18,36 @@ launches.set(launch.flightNumber, launch);
 const getAllLaunches = () => {
   return Array.from(launches.values());
 };
+
 const addNewLaunch = (launch) => {
   latestFlightNumber++;
   launches.set(latestFlightNumber, {
-    ...launch,
     flightNumber: latestFlightNumber,
+    ...launch,
     customer: ["CODESKUL", "ISRO"],
     upcoming: true,
     success: true,
   });
 };
 
+const existsLaunchWithId = (launchId) => {
+  return launches.has(launchId);
+};
+
+const abortLaunchById = (launchId) => {
+  // permenantly remove record
+  // launches.delete(launchId);
+
+  // Soft Delete
+  const aborted = launches.get(launchId);
+  aborted.upcoming = false;
+  aborted.success = false;
+  return aborted;
+};
+
 module.exports = {
   getAllLaunches,
-  addNewLaunch
+  addNewLaunch,
+  existsLaunchWithId,
+  abortLaunchById,
 };

@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "f1cab033-54a8-40c3-98fb-02606657db9b",
+		"name": "Nasa_Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5901030"
+	},
+	"item": [
+		{
+			"name": "GET /planets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/planets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"planets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /launches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/launches",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"launches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /launches",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mission\": \"Chandrayan 3\",\r\n    \"rocket\": \"GSLV-MARK-3\",\r\n    \"target\": \"Moon\",\r\n    \"launchDate\": \"September 5, 2031\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/launches",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"launches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /launches/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/launches/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"launches",
+						"100"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
