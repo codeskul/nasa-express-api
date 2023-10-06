@@ -8,7 +8,7 @@ const launch = {
   rocket: "Explorer IS1",
   launchDate: new Date("December 27, 2030"),
   target: "Kepler-442 b",
-  customer: ["PSTECH", "ISRO"],
+  customers: ["PSTECH", "ISRO"],
   upcoming: true,
   success: true,
 };
@@ -24,7 +24,7 @@ const addNewLaunch = (launch) => {
   launches.set(latestFlightNumber, {
     flightNumber: latestFlightNumber,
     ...launch,
-    customer: ["CODESKUL", "ISRO"],
+    customers: ["CODESKUL", "ISRO"],
     upcoming: true,
     success: true,
   });
