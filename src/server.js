@@ -5,35 +5,14 @@ const mongoose = require("mongoose");
 
 const app = require("./app");
 const { loadPlanetsData } = require("./models/planets.model");
+const { mongoConnect } = require("./services/mongo");
 
 const port = normalizePort(process.env.PORT || "8000");
-const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/Nasa_DB";
 
 const server = http.createServer(app);
 
 async function startServer() {
-  // ##### Another way for connection success or failure check #####
-  //   mongoose.connection.once("open", () => {
-  //     debug("MongoDB Connected!");
-  //   });
-  //   mongoose.connection.on("error", (err) => {
-  //     console.error(err);
-  //   });
-  await mongoose
-    .connect(mongoUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(
-      () => {
-        /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
-        debug("MongoDB Connected!");
-      },
-      (err) => {
-        /** handle initial connection error */
-        debug(`ERROR :: ${err}`);
-      }
-    );
+  await mongoConnect();
 
   await loadPlanetsData();
 

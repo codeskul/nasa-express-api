@@ -1,10 +1,9 @@
 const { parse } = require("csv-parse");
 const fs = require("fs");
 const path = require("path");
-const debug = require("debug")("nasa-api:planets-model");
+const debug = require("debug")("nasa-api:model_planets");
 
 const planets = require("./planets.mongo");
-const habitablePlanets = [];
 
 function isHabitablePlanet(planet) {
   return (
@@ -28,10 +27,6 @@ const loadPlanetsData = () => {
       )
       .on("data", async (data) => {
         if (isHabitablePlanet(data)) {
-          /** Static Variable instead of database */
-          // habitablePlanets.push(data);
-
-          /** TODO: Replace below create with insert + update = upsert */
           savePlanet(data);
         }
       })
@@ -48,7 +43,7 @@ const loadPlanetsData = () => {
 };
 
 const getAllPlanets = async () => {
-  return await planets.find();
+  return await planets.find({}, { _id: 0, __v: 0 });
 };
 
 const savePlanet = async (planet) => {

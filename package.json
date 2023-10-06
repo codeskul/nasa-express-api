@@ -5,8 +5,11 @@
   "scripts": {
     "watch": "nodemon src/server.js",
     "start": "node src/server.js",
-    "test": "jest",
-    "test-watch": "jest --watch"
+    "test": "jest --detectOpenHandles",
+    "test-watch": "jest --detectOpenHandles --watch"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
