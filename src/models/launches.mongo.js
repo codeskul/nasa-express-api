@@ -8,7 +8,8 @@ const launchSchema = new mongoose.Schema({
   target: { type: String, required: true },
   customers: { type: [String] },
   upcoming: { type: Boolean, require: true },
-  success: { type: Boolean, require: true },
+  success: { type: Boolean, require: true, default: true },
 });
 
-module.exports = launchSchema
+// Connect launchSchema with the "launches" collection
+module.exports = mongoose.model("Launch", launchSchema);

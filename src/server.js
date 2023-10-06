@@ -7,16 +7,14 @@ const app = require("./app");
 const { loadPlanetsData } = require("./models/planets.model");
 
 const port = normalizePort(process.env.PORT || "8000");
-const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
+const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/Nasa_DB";
 
 const server = http.createServer(app);
 
 async function startServer() {
-  await loadPlanetsData();
-
   // ##### Another way for connection success or failure check #####
   //   mongoose.connection.once("open", () => {
-  //     console.log("MongoDB Connected!");
+  //     debug("MongoDB Connected!");
   //   });
   //   mongoose.connection.on("error", (err) => {
   //     console.error(err);
@@ -33,9 +31,12 @@ async function startServer() {
       },
       (err) => {
         /** handle initial connection error */
-        console.log("ERROR :: ", err);
+        debug(`ERROR :: ${err}`);
       }
     );
+
+  await loadPlanetsData();
+
   server.listen(port);
   server.on("error", onError);
   server.on("listening", onListening);

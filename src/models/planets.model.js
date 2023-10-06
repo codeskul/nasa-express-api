@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const debug = require("debug")("nasa-api:planets-model");
 
+const planets = require("./planets.mongo");
 const habitablePlanets = [];
 
 function isHabitablePlanet(planet) {
@@ -25,24 +26,42 @@ const loadPlanetsData = () => {
           columns: true,
         })
       )
-      .on("data", (data) => {
+      .on("data", async (data) => {
         if (isHabitablePlanet(data)) {
-          habitablePlanets.push(data);
+          /** Static Variable instead of database */
+          // habitablePlanets.push(data);
+
+          /** TODO: Replace below create with insert + update = upsert */
+          savePlanet(data);
         }
       })
       .on("error", (err) => {
         debug(err);
         reject(err);
       })
-      .on("end", () => {
-        debug(`${habitablePlanets.length} habitable planets found!`);
+      .on("end", async () => {
+        const countPlanetsFound = await planets.count();
+        debug(`${countPlanetsFound} habitable planets found!`);
         resolve();
       });
   });
 };
 
-const getAllPlanets = ()=>{
-    return habitablePlanets
-}
+const getAllPlanets = async () => {
+  return await planets.find();
+};
+
+const savePlanet = async (planet) => {
+  try {
+    /**UPSERT Operation */
+    await planets.updateOne(
+      { keplerName: planet.kepler_name },
+      { keplerName: planet.kepler_name },
+      { upsert: true }
+    );
+  } catch (error) {
+    debug(`Could not save planet ${error}`);
+  }
+};
 
 module.exports = { loadPlanetsData, getAllPlanets };
