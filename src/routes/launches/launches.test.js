@@ -3,7 +3,7 @@ const request = require("supertest");
 const app = require("../../app");
 const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
 
-describe("Launchse API", () => {
+describe("Launches API", () => {
   beforeAll(async () => {
     await mongoConnect();
   });
@@ -13,22 +13,22 @@ describe("Launchse API", () => {
   })
 
   /** GET /launches */
-  describe("Test GET /launches", () => {
+  describe("Test GET /v1/launches", () => {
     test("It should respond with 200 success", async () => {
       /** Method 1 */
-      // const response = await request(app).get("/launches");
+      // const response = await request(app).get("/v1/launches");
       // expect(response.statusCode).toBe(200);
 
       /** Method 2 */
       await request(app)
-        .get("/launches")
+        .get("/v1/launches")
         .expect("Content-Type", /json/)
         .expect(200);
     });
   });
 
   /** POST /launches */
-  describe("Test POST /launches", () => {
+  describe("Test POST /v1/launches", () => {
     const completeLaunchData = {
       mission: "Aditya L1",
       rocket: "GSLV Mark 2",
@@ -51,7 +51,7 @@ describe("Launchse API", () => {
 
     test("It should respond with 201 created", async () => {
       const response = await request(app)
-        .post("/launches")
+        .post("/v1/launches")
         .send(completeLaunchData)
         .expect("Content-Type", /json/)
         .expect(201);
@@ -67,7 +67,7 @@ describe("Launchse API", () => {
 
     test("It should catch missing required properties", async () => {
       const response = await request(app)
-        .post("/launches")
+        .post("/v1/launches")
         .send(launchDataWithoutDate)
         .expect("Content-Type", /json/)
         .expect(400);
@@ -79,7 +79,7 @@ describe("Launchse API", () => {
 
     test("It should catch invalid dates", async () => {
       const response = await request(app)
-        .post("/launches")
+        .post("/v1/launches")
         .send(launchDataWithInvalidDate)
         .expect("Content-Type", /json/)
         .expect(400);
@@ -89,18 +89,18 @@ describe("Launchse API", () => {
   });
 
   /** DELETE /launches/:id */
-  describe("Test DELETE /launches/:id", () => {
+  describe("Test DELETE /v1/launches/:id", () => {
     test("It should respond with 200 success", async () => {
       const launchId = 100;
       const response = await request(app)
-        .delete(`/launches/${launchId}`)
+        .delete(`/v1/launches/${launchId}`)
         .expect(200);
     });
 
     test("It should catch Launch not found", async () => {
       const launchId = 1; // which is not exist in launches
       const response = await request(app)
-        .delete(`/launches/${launchId}`)
+        .delete(`/v1/launches/${launchId}`)
         .expect(404);
 
       expect(response.body).toStrictEqual({
