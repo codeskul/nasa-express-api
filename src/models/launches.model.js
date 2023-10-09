@@ -7,17 +7,6 @@ const SPACEX_API_URL = "https://api.spacexdata.com/v5/launches/query";
 
 const DEFAULT_FLIGHT_NUMBER = 100;
 
-const launch = {
-  flightNumber: 100, // flight_number
-  mission: "Kepler Exploration X", // name
-  rocket: "Explorer IS1", // rocket.name
-  launchDate: new Date("December 27, 2030"), // date_local
-  target: "Kepler-442 b", //
-  customers: ["PSTECH", "ISRO"], // payloads.customers for each payload
-  upcoming: true, // upcoming
-  success: true, // success
-};
-
 const populateLaunches = async () => {
   const response = await axios.post(SPACEX_API_URL, {
     query: {},
@@ -99,7 +88,6 @@ const saveLaunch = async (launch) => {
     }
   );
 };
-saveLaunch(launch);
 
 const getLatestFlightNumber = async () => {
   const latestFlight = await launchesDatabase.findOne().sort("-flightNumber");
