@@ -18,8 +18,7 @@ const launch = {
   success: true, // success
 };
 
-const loadLaunchesData = async () => {
-  debug("Downloading spacex data");
+const populateLaunches = async () => {
   const response = await axios.post(SPACEX_API_URL, {
     query: {},
     options: {
@@ -57,23 +56,41 @@ const loadLaunchesData = async () => {
       success: launchDoc.success,
       customers: customers,
     };
-    debug(launch)
+
+    saveLaunch(launch);
+  }
+
+  /** TODO:Populate launches collection */
+};
+
+const loadLaunchesData = async () => {
+  debug("Downloading Space-X launches data...");
+
+  const firstLaunch = await findLaunch({
+    flightNumber: 1,
+    rocket: "Falcon 1",
+    mission: "FalconSat",
+  });
+  if (firstLaunch) {
+    debug("Launch data already exist");
+  } else {
+    populateLaunches();
   }
 };
 
-const getAllLaunches = async () => {
-  return await launchesDatabase.find({}, { _id: 0, __v: 0 });
+const findLaunch = async (filter) => {
+  return await launchesDatabase.findOne(filter);
+};
+
+const getAllLaunches = async (skip, limit) => {
+  return await launchesDatabase
+    .find({}, { _id: 0, __v: 0 })
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 };
 
 const saveLaunch = async (launch) => {
-  const planet = await planets.findOne({
-    keplerName: launch.target,
-  });
-
-  if (!planet) {
-    throw new Error("No matching planet found");
-  }
-
   await launchesDatabase.findOneAndUpdate(
     { flightNumber: launch.flightNumber },
     launch,
@@ -94,6 +111,14 @@ const getLatestFlightNumber = async () => {
 };
 
 const scheduleNewLaunch = async (launch) => {
+  const planet = await planets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error("No matching planet found");
+  }
+
   const newFlightNumber = (await getLatestFlightNumber()) + 1;
 
   const newLaunch = {
@@ -103,11 +128,12 @@ const scheduleNewLaunch = async (launch) => {
     customers: ["CODESKUL", "ISRO"],
     flightNumber: newFlightNumber,
   };
+
   await saveLaunch(newLaunch);
 };
 
 const existsLaunchWithId = async (launchId) => {
-  return await launchesDatabase.findOne({ flightNumber: launchId });
+  return await findLaunch({ flightNumber: launchId });
 };
 
 const abortLaunchById = async (launchId) => {
