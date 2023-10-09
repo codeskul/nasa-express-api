@@ -7,9 +7,7 @@ const cors = require("cors");
 const debug = require("debug")("nasa-api:app");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const planetsRouter = require("./routes/planets/planets.router");
-const launchesRouter = require("./routes/launches/launches.router");
+const apiRouter = require("./routes/api");
 
 const app = express();
 
@@ -37,9 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/planets", planetsRouter);
-app.use("/launches", launchesRouter);
+app.use("/v1", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

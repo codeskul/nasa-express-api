@@ -12,13 +12,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/planets",
-					"protocol": "http",
+					"raw": "{{api_endpoint}}/v1/planets",
 					"host": [
-						"localhost"
+						"{{api_endpoint}}"
 					],
-					"port": "8000",
 					"path": [
+						"v1",
 						"planets"
 					]
 				}
@@ -31,13 +30,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/launches",
-					"protocol": "http",
+					"raw": "{{api_endpoint}}/v1/launches",
 					"host": [
-						"localhost"
+						"{{api_endpoint}}"
 					],
-					"port": "8000",
 					"path": [
+						"v1",
 						"launches"
 					]
 				}
@@ -57,7 +55,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"mission\": \"Chandrayan 3\",\r\n    \"rocket\": \"GSLV-MARK-3\",\r\n    \"target\": \"Moon\",\r\n    \"launchDate\": \"September 5, 2031\"\r\n}",
+					"raw": "{\r\n    \"mission\": \"Chandrayan 4\",\r\n    \"rocket\": \"GSLV-MARK-3\",\r\n    \"target\": \"Kepler-62 f\",\r\n    \"launchDate\": \"September 5, 2035\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -65,12 +63,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/launches",
-					"protocol": "http",
+					"raw": "{{api_endpoint}}/launches",
 					"host": [
-						"localhost"
+						"{{api_endpoint}}"
 					],
-					"port": "8000",
 					"path": [
 						"launches"
 					]
@@ -91,19 +87,51 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8000/launches/100",
-					"protocol": "http",
+					"raw": "{{api_endpoint}}/v1/launches/100",
 					"host": [
-						"localhost"
+						"{{api_endpoint}}"
 					],
-					"port": "8000",
 					"path": [
+						"v1",
 						"launches",
 						"100"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_endpoint",
+			"value": "https://nasa-express-api.onrender.com",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "api_endpoint",
+			"value": "http://localhost:8000",
+			"type": "string"
 		}
 	]
 }
