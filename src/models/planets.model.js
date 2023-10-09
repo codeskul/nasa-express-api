@@ -1,7 +1,7 @@
 const { parse } = require("csv-parse");
 const fs = require("fs");
 const path = require("path");
-const debug = require("debug")("nasa-api:model_planets");
+const debug = require("debug")("nasa-api:model/planets");
 
 const planets = require("./planets.mongo");
 

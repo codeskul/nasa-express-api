@@ -1,11 +1,11 @@
 require("dotenv").config();
 const http = require("http");
 const debug = require("debug")("nasa-api:server");
-const mongoose = require("mongoose");
 
 const app = require("./app");
-const { loadPlanetsData } = require("./models/planets.model");
 const { mongoConnect } = require("./services/mongo");
+const { loadPlanetsData } = require("./models/planets.model");
+const { loadLaunchesData } = require("./models/launches.model");
 
 const port = normalizePort(process.env.PORT || "8000");
 
@@ -13,8 +13,8 @@ const server = http.createServer(app);
 
 async function startServer() {
   await mongoConnect();
-
   await loadPlanetsData();
+  await loadLaunchesData();
 
   server.listen(port);
   server.on("error", onError);
