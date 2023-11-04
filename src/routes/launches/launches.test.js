@@ -91,14 +91,14 @@ describe("Launches API", () => {
   /** DELETE /launches/:id */
   describe("Test DELETE /v1/launches/:id", () => {
     test("It should respond with 200 success", async () => {
-      const launchId = 100;
+      const launchId = 103;
       const response = await request(app)
         .delete(`/v1/launches/${launchId}`)
         .expect(200);
     });
 
     test("It should catch Launch not found", async () => {
-      const launchId = 1; // which is not exist in launches
+      const launchId = 0; // which is not exist in launches
       const response = await request(app)
         .delete(`/v1/launches/${launchId}`)
         .expect(404);
