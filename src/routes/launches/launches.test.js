@@ -93,7 +93,7 @@ describe("Launches API", () => {
   /** DELETE /launches/:id */
   describe("Test DELETE /v1/launches/:id", () => {
     test("It should respond with 200 success", async () => {
-      const launchId = 103;
+      const launchId = 101;
       const response = await request(app)
         .delete(`/v1/launches/${launchId}`)
         .expect(200);
