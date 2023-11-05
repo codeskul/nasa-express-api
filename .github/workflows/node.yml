@@ -8,6 +8,7 @@ jobs:
   build:
     env:
       CI: true
+      MONGO_URL: mongodb://localhost/nasa-api
     strategy:
       matrix:
         node-version: ['16.x', '18.x']
